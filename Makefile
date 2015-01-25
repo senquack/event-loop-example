@@ -1,3 +1,6 @@
+# Many examples and much inspiration here couresy of:
+# Nebuleon and Maarten ter Huurne.
+
 CC          :=  /opt/gcw0-toolchain/usr/bin/mipsel-linux-gcc
 STRIP       :=  /opt/gcw0-toolchain/usr/bin/mipsel-linux-strip
 
@@ -14,7 +17,7 @@ INCLUDE     := -I.
 DEFS        +=
 
 CFLAGS       = -Wall -Wno-unused-variable \
-               -O2 -fomit-frame-pointer $(DEFS) $(INCLUDE)
+               -O2 $(DEFS) $(INCLUDE)
 LDFLAGS     :=
 
 .PHONY: all opk
@@ -34,7 +37,6 @@ event-loop-sdl-1.2.o: event-loop.c
 
 event-loop-sdl-2.o: event-loop.c
 	$(CC) $(CFLAGS) $(SDL2_CFLAGS) -o $@ -c $<
-
 
 # The two below declarations ensure that editing a .c file recompiles only that
 # file, but editing a .h file recompiles everything.

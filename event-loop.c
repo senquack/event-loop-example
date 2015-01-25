@@ -1,3 +1,5 @@
+// SDL 1.2/2.0 abstraction code here couresy of Nebuleon
+
 #ifdef SDL_2
 #  include "SDL2/SDL.h"
 #  define JOYSTICK_NAME(Index) SDL_JoystickNameForIndex(Index)
@@ -16,44 +18,44 @@
 
 int main()
 {
-    if (SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-        printf("ERROR: Unable to initialize SDL:  %s\n", SDL_GetError());
-        return 1;
-    }
+   if (SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+      printf("ERROR: Unable to initialize SDL:  %s\n", SDL_GetError());
+      return 1;
+   }
 
 #ifdef SDL_2
-	SDL_Window *Screen = SDL_CreateWindow("Input test",
-		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-		0, 0,
-		SDL_WINDOW_FULLSCREEN_DESKTOP);
+   SDL_Window *Screen = SDL_CreateWindow("Input test",
+         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+         0, 0,
+         SDL_WINDOW_FULLSCREEN_DESKTOP);
 
-	if (Screen == NULL)
-	{
-		printf("SDL_CreateWindow failed: %s\n", SDL_GetError());
-	}
+   if (Screen == NULL)
+   {
+      printf("SDL_CreateWindow failed: %s\n", SDL_GetError());
+   }
 #else
-    SDL_Surface *Screen = SDL_SetVideoMode( SCREEN_W, SCREEN_H, SCREEN_BPP, SCREEN_FLAGS );
-    SDL_ShowCursor(SDL_DISABLE);						// Disable mouse cursor on gp2x/gcw
+   SDL_Surface *Screen = SDL_SetVideoMode( SCREEN_W, SCREEN_H, SCREEN_BPP, SCREEN_FLAGS );
+   SDL_ShowCursor(SDL_DISABLE);						// Disable mouse cursor on gp2x/gcw
 #endif //SDL_2
 
-	// Initialise joystick input.
-	SDL_JoystickEventState(SDL_ENABLE);
-	SDL_Joystick* gcw0_controls = NULL;
-	SDL_Joystick* gsensor = NULL;
+   // Initialise joystick input.
+   SDL_JoystickEventState(SDL_ENABLE);
+   SDL_Joystick* gcw0_controls = NULL;
+   SDL_Joystick* gsensor = NULL;
 
    printf("SDL reports %d total joysticks available.\n", SDL_NumJoysticks());
    int i;
-	for (i = 0; i < SDL_NumJoysticks(); i++)
-	{
-		printf("Joystick %u: \"%s\"\n", i, JOYSTICK_NAME(i));
-		if (strcmp(JOYSTICK_NAME(i), "linkdev device (Analog 2-axis 8-button 2-hat)") == 0) {
+   for (i = 0; i < SDL_NumJoysticks(); i++)
+   {
+      printf("Joystick %u: \"%s\"\n", i, JOYSTICK_NAME(i));
+      if (strcmp(JOYSTICK_NAME(i), "linkdev device (Analog 2-axis 8-button 2-hat)") == 0) {
          printf("Recognized GCW's controls (buttons, dpad, analog stick)\n");
-			gcw0_controls = SDL_JoystickOpen(i);
+         gcw0_controls = SDL_JoystickOpen(i);
       } else if (strcmp(JOYSTICK_NAME(i), "mxc6225") == 0) {
          printf("Recognized GCW's g-sensor\n");
-			gsensor = SDL_JoystickOpen(i);
+         gsensor = SDL_JoystickOpen(i);
       }
-	}
+   }
 
    if (!gcw0_controls) {
       printf("ERROR: failed to recognize GCW's controls (buttons, dpad, analog stick)\n");
@@ -64,28 +66,28 @@ int main()
    }
 
    printf("Entering event loop, press CTRL-C to exit..\n");
-	int quit = 0;
-	while (!quit)
-	{
-		SDL_Event event;
-		while (SDL_PollEvent(&event) != 0)
-		{
-			switch (event.type)
-			{
+   int quit = 0;
+   while (!quit)
+   {
+      SDL_Event event;
+      while (SDL_PollEvent(&event) != 0)
+      {
+         switch (event.type)
+         {
             case SDL_QUIT:
                printf("Exiting..\n");
                quit = 1;
                break;
-				case SDL_JOYAXISMOTION:
+            case SDL_JOYAXISMOTION:
                printf("JOYAXISMOTION event\n");
                break;
             case SDL_JOYHATMOTION:
                printf("JOYHATMOTION event\n");
                break;
-				case SDL_JOYBUTTONDOWN:
+            case SDL_JOYBUTTONDOWN:
                printf("JOYBUTTONDOWN event\n");
                break;
-				case SDL_JOYBUTTONUP:
+            case SDL_JOYBUTTONUP:
                printf("JOYBUTTONUP event\n");
                break;
             case SDL_MOUSEMOTION:
@@ -97,10 +99,10 @@ int main()
             case SDL_MOUSEBUTTONUP:
                printf("MOUSEBUTTONUP event\n");
                break;
-				case SDL_KEYDOWN:
+            case SDL_KEYDOWN:
                printf("KEYDOWN event\n");
                break;
-				case SDL_KEYUP:
+            case SDL_KEYUP:
                printf("KEYUP event\n");
                break;
             default:
