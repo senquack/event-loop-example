@@ -1,4 +1,6 @@
-// SDL 1.2/2.0 abstraction code here couresy of Nebuleon
+// SDL 1.2/2.0 abstraction code here courtesy of Nebuleon
+#include <stdio.h>
+#include <unistd.h>
 
 #ifdef SDL_2
 #  include "SDL2/SDL.h"
@@ -13,8 +15,6 @@
 #define SCREEN_BPP   32
 #define SCREEN_FLAGS SDL_HWSURFACE | SDL_DOUBLEBUF
 #endif //SDL_2
-
-#include <stdio.h>
 
 int main()
 {
@@ -109,6 +109,7 @@ int main()
                printf("UNKNOWN event\n");
                break;
          }
+         usleep(10);
       }
    }
 
