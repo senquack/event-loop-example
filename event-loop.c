@@ -38,6 +38,7 @@ int main()
    SDL_ShowCursor(SDL_DISABLE);						// Disable mouse cursor on gp2x/gcw
 #endif //SDL_2
 
+
    // Initialise joystick input.
    SDL_JoystickEventState(SDL_ENABLE);
    SDL_Joystick* gcw0_controls = NULL;
@@ -79,16 +80,23 @@ int main()
                quit = 1;
                break;
             case SDL_JOYAXISMOTION:
-               printf("JOYAXISMOTION event\n");
+               printf("JOYAXISMOTION event\tdevice:%d axis:%d value:%d\n", 
+                       event.jaxis.which, 
+                       event.jaxis.axis,
+                       event.jaxis.value);
                break;
             case SDL_JOYHATMOTION:
                printf("JOYHATMOTION event\n");
                break;
             case SDL_JOYBUTTONDOWN:
-               printf("JOYBUTTONDOWN event\n");
+               printf("JOYBUTTONDOWN event\tjoy:%d button:%d\n", 
+                       event.jbutton.which, 
+                       event.jbutton.button);
                break;
             case SDL_JOYBUTTONUP:
-               printf("JOYBUTTONUP event\n");
+               printf("JOYBUTTONUP event\tjoy:%d button:%d\n", 
+                       event.jbutton.which, 
+                       event.jbutton.button);
                break;
             case SDL_MOUSEMOTION:
                printf("MOUSEMOTION event\n");
@@ -100,10 +108,12 @@ int main()
                printf("MOUSEBUTTONUP event\n");
                break;
             case SDL_KEYDOWN:
-               printf("KEYDOWN event\n");
+               printf("KEYDOWN event\tkey:%s\n", 
+                       SDL_GetKeyName(event.key.keysym.sym));
                break;
             case SDL_KEYUP:
-               printf("KEYUP event\n");
+               printf("KEYUP event\tkey:%s\n", 
+                       SDL_GetKeyName(event.key.keysym.sym));
                break;
             default:
                printf("UNKNOWN event\n");
